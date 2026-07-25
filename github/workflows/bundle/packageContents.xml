@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ApplicationPackage
+  SchemaVersion="1.0"
+  AutodeskProduct="AutoCAD"
+  Name="Asadbek Tools"
+  Version="1.0.0"
+  Author="Asadbek"
+  Description="Asadbek Tools — Geodeziya toolbar va komandalar.">
+  <Components>
+    <ComponentEntry>
+      <RuntimeRequirements OS="Win64" Platform="AutoCAD" />
+      <Runtime>
+        <Application>
+          <LispFiles>
+            <LispFile>Contents/Support/LoadAsadbekTools.lsp</LispFile>
+          </LispFiles>
+        </Application>
+      </Runtime>
+    </ComponentEntry>
+  </Components>
+</ApplicationPackage>
