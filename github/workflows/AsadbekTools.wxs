@@ -1,32 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Id="*" Name="Asadbek Tools" Language="1033" Version="1.0.0.0" Manufacturer="Asadbek" UpgradeCode="PUT-UPGRADE-GUID-HERE">
-    <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" />
-
-    <MediaTemplate />
-
-    <Directory Id="TARGETDIR" Name="SourceDir">
-      <Directory Id="ProgramDataFolder">
-        <Directory Id="ApplicationPluginsFolder" Name="Autodesk\ApplicationPlugins">
-          <Directory Id="AsadbekBundleDir" Name="AsadbekTools.bundle" />
-        </Directory>
-      </Directory>
-    </Directory>
-
-    <DirectoryRef Id="AsadbekBundleDir">
-      <Component Id="Cmp_AsadbekBundle" Guid="PUT-COMPONENT-GUID-HERE">
-        <File Id="File_packageContents" Name="packageContents.xml" Source="bundle\packageContents.xml" KeyPath="yes" />
-        <File Id="File_loader" Name="LoadAsadbekTools.lsp" Source="bundle\Contents\Support\LoadAsadbekTools.lsp" />
-        <File Id="File_DELIN" Name="DELINSIDE.lsp" Source="bundle\Contents\Support\DELINSIDE.lsp" />
-        <File Id="File_DELOUT" Name="DELOUTSIDE.lsp" Source="bundle\Contents\Support\DELOUTSIDE.lsp" />
-        <File Id="File_GG" Name="GG.lsp" Source="bundle\Contents\Support\GG.lsp" />
-        <File Id="File_Q" Name="Q.lsp" Source="bundle\Contents\Support\Q.lsp" />
-        <File Id="File_cuix" Name="AsadbekTools.cuix" Source="bundle\Contents\Windows\AsadbekTools.cuix" />
-      </Component>
-    </DirectoryRef>
-
-    <Feature Id="DefaultFeature" Title="Asadbek Tools" Level="1">
-      <ComponentRef Id="Cmp_AsadbekBundle" />
-    </Feature>
-  </Product>
-</Wix>
+<!-- AsadbekTools.cui.xml (CUI snippet) -->
+<Customizations>
+  <Ribbon>
+    <Tabs>
+      <Tab Name="Asadbek Tools" ID="AsadbekToolsTab">
+        <Panels>
+          <Panel Name="Geodeziya" ID="GeodeziyaPanel">
+            <Buttons>
+              <Button Name="GG" ID="btnGG" CommandMacro="^C^C_GG" ToolTip="📍 GG" Image="Resources\\Icons\\GG.png" />
+              <Button Name="Q" ID="btnQ" CommandMacro="^C^C_Q" ToolTip="🔴 Q" Image="Resources\\Icons\\Q.png" />
+              <Button Name="DELINSIDE" ID="btnDelInside" CommandMacro="^C^C_DELINSIDE" ToolTip="✂ DELINSIDE" Image="Resources\\Icons\\DELINSIDE.png" />
+              <Button Name="DELOUTSIDE" ID="btnDelOutside" CommandMacro="^C^C_DELOUTSIDE" ToolTip="⬜ DELOUTSIDE" Image="Resources\\Icons\\DELOUTSIDE.png" />
+            </Buttons>
+          </Panel>
+        </Panels>
+      </Tab>
+    </Tabs>
+  </Ribbon>
+</Customizations>
