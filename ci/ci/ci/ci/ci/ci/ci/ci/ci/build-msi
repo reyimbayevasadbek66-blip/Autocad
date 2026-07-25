@@ -1,0 +1,29 @@
+# create_zip.ps1
+# Script to build bundle folder structure and zip it.
+# Run from the folder where you saved these files.
+
+$root = Join-Path (Get-Location) "bundle"
+Remove-Item -Recurse -Force $root -ErrorAction SilentlyContinue
+
+# Create structure
+New-Item -ItemType Directory -Path $root
+New-Item -ItemType Directory -Path (Join-Path $root "Contents\Support") -Force
+New-Item -ItemType Directory -Path (Join-Path $root "Contents\Windows") -Force
+New-Item -ItemType Directory -Path (Join-Path $root "Contents\Resources\Icons") -Force
+
+# Copy files (assumes files are in current directory)
+Copy-Item -Path ".\packageContents.xml" -Destination $root
+Copy-Item -Path ".\LoadAsadbekTools.lsp" -Destination (Join-Path $root "Contents\Support")
+Copy-Item -Path ".\DELINSIDE.lsp" -Destination (Join-Path $root "Contents\Support")
+Copy-Item -Path ".\DELOUTSIDE.lsp" -Destination (Join-Path $root "Contents\Support")
+Copy-Item -Path ".\GG.lsp" -Destination (Join-Path $root "Contents\Support")
+Copy-Item -Path ".\Q.lsp" -Destination (Join-Path $root "Contents\Support")
+# If you have AsadbekTools.cuix (binary) put it into Contents\Windows
+Copy-Item -Path ".\AsadbekTools.cuix" -Destination (Join-Path $root "Contents\Windows") -ErrorAction SilentlyContinue
+
+# Create ZIP
+$zipname = "AsadbekTools_bundle.zip"
+if (Test-Path $zipname) { Remove-Item $zipname -Force }
+Add-Type -AssemblyName System.IO.Compression.FileSystem
+[System.IO.Compression.ZipFile]::CreateFromDirectory($root, $zipname)
+Write-Host "Created $zipname in" (Get-Location)
