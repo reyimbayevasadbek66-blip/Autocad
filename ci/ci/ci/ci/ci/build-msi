@@ -1,0 +1,42 @@
+;;; LoadAsadbekTools.lsp
+;;; Simple loader for bundle: loads LISP files from Contents\Support and attempts to load CUIX.
+(vl-load-com)
+
+(defun asadbek--bundle-root ()
+  ;; findfile will return full path if file is on support path; try to locate this loader
+  (let ((f (findfile "LoadAsadbekTools.lsp")))
+    (if f
+      (vl-filename-directory f)
+      nil))
+
+(defun asadbek--path (root &rest parts)
+  (apply 'strcat (list root "\\" (apply 'strcat parts))))
+
+(let ((root (asadbek--bundle-root)))
+  (if root
+    (progn
+      (princ (strcat "\nAsadbek Tools loader root: " root))
+      (let* ((support (asadbek--path root "..\\Support"))
+             (windows (asadbek--path root "..\\Windows"))
+             (cuix (asadbek--path windows "AsadbekTools.cuix"))
+             (files '("DELINSIDE.lsp" "DELOUTSIDE.lsp" "GG.lsp" "Q.lsp")))
+        ;; Try to load each LISP from Support
+        (foreach f files
+          (let ((p (findfile (strcat support "\\" f))))
+            (if p
+              (progn
+                (load p)
+                (princ (strcat "\nLoaded: " p))
+              ))))
+        ;; Try to load cuix (silent cuiload)
+        (if (findfile cuix)
+          (progn
+            (princ (strcat "\nLoading CUIX: " cuix))
+            (command "._-cuiload" cuix "")
+          )
+          (princ "\nAsadbek Tools: CUIX not found in bundle Windows folder.")
+        )))
+
+    (princ "\nAsadbek Tools loader: bundle root not found.")
+  ))
+(princ)
